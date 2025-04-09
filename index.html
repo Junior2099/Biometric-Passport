@@ -1,495 +1,468 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="fr" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Pedido de Passaporte Biométrico</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <title>Formulaire de Demande du Passeport Biométrique</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-</head>
-<body>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
+            line-height: 1.6;
             color: #333;
-        }
-        
-        .container {
             max-width: 800px;
-            margin: 30px auto;
-            background-color: white;
+            margin: 0 auto;
             padding: 20px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            background-color: #f5f5f5;
         }
         
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #005e8a;
-        }
-        
-        h1 {
-            color: #005e8a;
-            margin: 0;
-            padding: 0;
-            font-size: 22px;
-        }
-        
-        h2 {
-            color: #005e8a;
-            font-size: 18px;
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid #ddd;
-        }
-        
-        .section {
-            margin-bottom: 25px;
-            padding: 15px;
-            background-color: #f9f9f9;
+        .form-container {
+            background-color: white;
+            padding: 30px;
             border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            direction: rtl;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #006233;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #006233;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .form-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-size: 20px;
+        }
+        
+        .bilingual-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .bilingual-title div {
+            width: 48%;
+        }
+        
+        .arabic-text {
+            text-align: right;
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+        }
+        
+        .french-text {
+            text-align: left;
         }
         
         .form-group {
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
         }
         
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+        .form-group label {
+            width: 40%;
+            text-align: right;
+            padding-right: 10px;
         }
         
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
+        .form-group input, 
+        .form-group select {
+            width: 60%;
+            padding: 8px;
+            border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 16px;
             box-sizing: border-box;
         }
         
-        .form-row {
-            display: flex;
-            gap: 15px;
+        .form-group-vertical {
             margin-bottom: 15px;
         }
         
-        .form-col {
-            flex: 1;
+        .form-group-vertical label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: right;
         }
         
-        .form-col.small {
-            flex: 0.5;
-        }
-        
-        button {
-            background-color: #005e8a;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            border-radius: 4px;
-            cursor: pointer;
+        .form-group-vertical input, 
+        .form-group-vertical select,
+        .form-group-vertical textarea {
             width: 100%;
-            margin-top: 20px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
         }
         
-        button:hover {
-            background-color: #004a6e;
-        }
-        
-        .instructions {
-            background-color: #fffde7;
-            border-left: 4px solid #ffd600;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        
-        .instructions h3 {
-            margin-top: 0;
-            color: #555;
-        }
-        
-        .instructions ul {
-            padding-left: 20px;
-        }
-        
-        .instructions li {
-            margin-bottom: 8px;
-        }
-        
-        .warning {
-            color: #d32f2f;
+        .section-title {
             font-weight: bold;
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+            text-align: right;
         }
         
         .signature-box {
-            border: 1px dashed #aaa;
-            height: 100px;
-            margin-top: 10px;
+            border: 1px solid #333;
+            width: 300px;
+            height: 80px;
+            margin: 30px auto;
+            text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #888;
-            border-radius: 4px;
         }
         
-        .admin-section {
-            background-color: #f0f4f8;
-            border: 1px dashed #90a4ae;
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            background-color: #006233;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background-color: #004d27;
+        }
+        
+        .two-columns {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .two-columns > div {
+            flex: 1;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            width: auto;
+            margin-left: 5px;
+        }
+        
+        .administration-section {
+            border: 2px dashed #999;
             padding: 15px;
             margin-top: 30px;
-            border-radius: 4px;
+            text-align: center;
+            color: #666;
         }
-
-        .receipt {
-            border: 2px solid #000;
+        
+        .instructions {
+            background-color: #f8f8f8;
             padding: 15px;
-            margin: 20px 0;
-            position: relative;
+            border-left: 4px solid #006233;
+            margin-top: 30px;
         }
         
-        .receipt:before {
-            content: "✂";
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            background: white;
-            padding: 0 10px;
-        }
-        
-        @media print {
-            .no-print {
-                display: none;
+        @media (max-width: 600px) {
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
             }
             
-            .container {
-                box-shadow: none;
-                margin: 0;
-                padding: 0;
+            .form-group label {
+                width: 100%;
+                text-align: right;
+                margin-bottom: 5px;
             }
             
-            body {
-                background-color: white;
+            .form-group input, 
+            .form-group select {
+                width: 100%;
+            }
+            
+            .two-columns {
+                flex-direction: column;
             }
         }
     </style>
-
-    <div class="container">
-        <header>
-            <h1>FORMULÁRIO DE PEDIDO DE PASSAPORTE BIOMÉTRICO</h1>
-        </header>
+</head>
+<body>
+    <div class="form-container" id="form-to-print">
+        <div class="header">
+            <h1>ROYAUME DU MAROC</h1>
+        </div>
         
-        <form id="passportForm">
-            <div class="section">
-                <h2>INFORMAÇÕES SOBRE O REQUERENTE</h2>
-                
-                <div class="form-group">
-                    <label for="documentNumber">N° CNIE ou N° Identificador (para menor de 12 a 18 anos):</label>
-                    <input type="text" id="documentNumber" required>
+        <div class="bilingual-title">
+            <div class="arabic-text">ﻃﻠﺐ ﺟﻮﺍﺯ ﺍﻟﺴﻔﺮ ﺍﻟﺒﻴﻮﻣﺘﺮﻱ</div>
+            <div class="french-text">Formulaire de demande du Passeport Biométrique</div>
+        </div>
+        
+        <div class="section-title">
+            <span class="arabic-text">ﻣﻌﻠﻮﻣﺎﺕ ﺧﺎﺻﺔ ﺑﻄﺎﻟﺐ ﺍﻟﺠﻮﺍﺯ</span>
+            <span class="french-text">RENSEIGNEMENTS CONCERNANT LE DEMANDEUR</span>
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺭﻗﻢ ﺏ.ﻭ.ﺕ.ﺇ ﺃﻭ ﺭﻗﻢ ﺍﻟﻬﻮﻳﺔ ﻟﻠﻘﺎﺻﺮ ﻣﻦ 12 ﺇﻟﻰ 18 ﺳﻨﺔ</span>
+                <span class="french-text">N°CNIE ou N° Identifiant pour mineur de12 à 18 ans</span>
+            </label>
+            <input type="text" id="cnie-number">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺍﻹﺳﻢ ﺍﻟﻌﺎﺋﻠﻲ</span>
+                <span class="french-text">Nom</span>
+            </label>
+            <input type="text" id="last-name">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺍﻹﺳﻢ ﺍﻟﺸﺨﺼﻲ</span>
+                <span class="french-text">Prénom</span>
+            </label>
+            <input type="text" id="first-name">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺗﺎﺭﻳﺦ ﺍﻻﺯﺩﻳﺎﺩ</span>
+                <span class="french-text">Date de naissance</span>
+            </label>
+            <input type="date" id="birth-date">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺍﻟﺠﻨﺲ</span>
+                <span class="french-text">Sexe</span>
+            </label>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" id="male" name="gender" value="male">
+                    <label for="male">Masculin / ﺫﻛﺮ</label>
                 </div>
-                
-                <div class="form-row">
-                    <div class="form-col">
-                        <label for="lastName">Nome de família:</label>
-                        <input type="text" id="lastName" required>
-                    </div>
-                    
-                    <div class="form-col">
-                        <label for="firstName">Nome próprio:</label>
-                        <input type="text" id="firstName" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="postalCode">Código Postal:</label>
-                    <input type="text" id="postalCode" required>
-                </div>
-            </div>
-            
-            <div class="section" id="minorSection">
-                <h2>INFORMAÇÕES COMPLEMENTARES PARA MENORES DE MENOS DE 12 ANOS</h2>
-                
-                <div class="form-group">
-                    <label for="parentName">Filho(a) de (nome do pai/mãe):</label>
-                    <input type="text" id="parentName">
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2>INFORMAÇÕES SOBRE O REPRESENTANTE LEGAL</h2>
-                
-                <div class="form-group">
-                    <label for="legalRepDocType">Tipo de documento de identidade:</label>
-                    <select id="legalRepDocType">
-                        <option value="">Selecione...</option>
-                        <option value="CNIE">CNIE</option>
-                        <option value="CartaoResidencia">Cartão de Residência</option>
-                        <option value="Passaporte">Passaporte</option>
-                        <option value="Outro">Outro</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="legalRepDocNumber">N° do documento de identidade:</label>
-                    <input type="text" id="legalRepDocNumber">
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-col">
-                        <label for="legalRepLastName">Nome de família:</label>
-                        <input type="text" id="legalRepLastName">
-                    </div>
-                    
-                    <div class="form-col">
-                        <label for="legalRepFirstName">Nome próprio:</label>
-                        <input type="text" id="legalRepFirstName">
-                    </div>
+                <div class="radio-option">
+                    <input type="radio" id="female" name="gender" value="female">
+                    <label for="female">Féminin / ﺃﻧﺜﻰ</label>
                 </div>
             </div>
-            
-            <div class="receipt">
-                <h2>RECIBO DE ENTREGA DO PEDIDO DE PASSAPORTE BIOMÉTRICO</h2>
-                <p><em>(A ser apresentado no momento da retirada do passaporte)</em></p>
-                
-                <div class="form-group" id="receiptInfo">
-                    <p><strong>Nome:</strong> <span id="fullNameReceipt"></span></p>
-                    <p><strong>N° CNIE/Identificador:</strong> <span id="docNumberReceipt"></span></p>
-                </div>
-                
-                <div class="form-group">
-                    <label>PARA SER PREENCHIDO NA RETIRADA DO PASSAPORTE:</label>
-                    <p>Declaro que as informações no passaporte n°: ________________ que recebi na data ___/___/______ estão corretas.</p>
-                </div>
-                
-                <div class="form-group">
-                    <label>Assinatura do requerente ou do representante legal:</label>
-                    <div class="signature-box">Espaço para assinatura</div>
-                </div>
-            </div>
-            
-            <div class="admin-section">
-                <h2>PARA USO EXCLUSIVO DA ADMINISTRAÇÃO</h2>
-                
-                <div class="form-row">
-                    <div class="form-col">
-                        <label for="dossierNumber">N° do Dossiê:</label>
-                        <input type="text" id="dossierNumber">
-                    </div>
-                    
-                    <div class="form-col">
-                        <label for="provinceCountry">Província / País:</label>
-                        <input type="text" id="provinceCountry">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-col">
-                        <label for="consulateOffice">Caidato / Consulado:</label>
-                        <input type="text" id="consulateOffice">
-                    </div>
-                    
-                    <div class="form-col small">
-                        <label for="year">Ano:</label>
-                        <input type="text" id="year">
-                    </div>
-                    
-                    <div class="form-col small">
-                        <label for="orderNumber">N° de Ordem:</label>
-                        <input type="text" id="orderNumber">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="civilRegistryNumber">N° do Registro Civil (para menores de 12 anos):</label>
-                    <input type="text" id="civilRegistryNumber">
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-col">
-                        <label for="requestReason">Motivo do pedido:</label>
-                        <input type="text" id="requestReason">
-                    </div>
-                    
-                    <div class="form-col">
-                        <label for="issueLocation">Local de emissão:</label>
-                        <input type="text" id="issueLocation">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-col">
-                        <label for="proofType">Tipo de justificativo:</label>
-                        <select id="proofType">
-                            <option value="">Selecione...</option>
-                            <option value="CNIE">CNIE</option>
-                            <option value="Recibo">Recibo</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-col">
-                        <label for="filingDate">Data do depósito do dossiê:</label>
-                        <input type="date" id="filingDate">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Assinatura e carimbo da autoridade local:</label>
-                    <div class="signature-box">Espaço para assinatura e carimbo</div>
-                </div>
-            </div>
-            
-            <div class="instructions">
-                <h3>RECOMENDAÇÕES IMPORTANTES</h3>
-                <ul>
-                    <li>O formulário deve ser preenchido em <strong>letras latinas maiúsculas e caracteres árabes</strong> diretamente no site www.passeport.ma ou manualmente com caneta esferográfica preta, <strong>sem ultrapassar os limites dos campos</strong> e <strong>com espaço entre as palavras</strong>.</li>
-                    <li><strong>No momento da retirada do passaporte</strong>, o cidadão deve verificar as informações na <strong>página 2</strong> do passaporte <strong>antes de assinar e entregar o recibo</strong>.</li>
-                    <li><strong>Qualquer erro</strong> nas informações ou na foto deve ser <strong>imediatamente comunicado à administração</strong>.</li>
-                    <li>A <strong>assinatura</strong> do requerente ou do representante legal <strong>deve estar dentro do campo apropriado</strong>.</li>
-                    <li>Qualquer passaporte <strong>não retirado em até 6 meses</strong> após o depósito do pedido será <strong>anulado</strong>.</li>
-                    <li class="warning">Declarações falsas estão sujeitas a ações judiciais.</li>
-                </ul>
-            </div>
-            
-            <button type="button" onclick="imprimirFormulario()" class="no-print">Imprimir Formulário</button>
-            <button type="button" id="savePdfButton" class="no-print">Salvar em PDF</button>
-        </form>
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﻣﻜﺎﻥ ﺍﻻﺯﺩﻳﺎﺩ</span>
+                <span class="french-text">Lieu de naissance</span>
+            </label>
+            <input type="text" id="birth-place">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺑﻠﺪ ﺍﻻﺯﺩﻳﺎﺩ</span>
+                <span class="french-text">Pays de naissance</span>
+            </label>
+            <input type="text" id="birth-country" value="MAROC">
+        </div>
+        
+        <div class="form-group-vertical">
+            <label>
+                <span class="arabic-text">ﺍﻟﻌﻨﻮﺍﻥ</span>
+                <span class="french-text">Adresse</span>
+            </label>
+            <input type="text" id="address">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺍﻟﻤﺪﻳﻨﺔ</span>
+                <span class="french-text">Ville</span>
+            </label>
+            <input type="text" id="city">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺍﻟﺒﻠﺪ</span>
+                <span class="french-text">Pays</span>
+            </label>
+            <input type="text" id="country" value="MAROC">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺍﻟﺮﻣﺰ ﺍﻟﺒﺮﻳﺪﻱ</span>
+                <span class="french-text">Code postal</span>
+            </label>
+            <input type="text" id="postal-code">
+        </div>
+        
+        <div class="section-title">
+            <span class="arabic-text">ﻣﻌﻠﻮﻣﺎﺕ ﺇﺿﺎﻓﻴﺔ ﺧﺎﺻﺔ ﺑﺎﻟﻘﺎﺻﺮ ﻣﺎ ﺩﻭﻥ 12 ﺳﻨﺔ</span>
+            <span class="french-text">RENSEIGNEMENTS COMPLEMENTAIRES CONCERNANT LE MINEUR DE MOINS DE 12 ANS</span>
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺍﺑﻦ/ﺑﻨﺖ )ﺍﻷﺏ( ﻭ )ﺍﻷﻡ(</span>
+                <span class="french-text">Fils / Fille de (Père) Et de (Mère)</span>
+            </label>
+            <input type="text" id="parents-names">
+        </div>
+        
+        <div class="section-title">
+            <span class="arabic-text">ﻣﻌﻠﻮﻣﺎﺕ ﺧﺎﺻﺔ ﺑﺎﻟﻨﺎﺋﺐ ﺍﻟﺸﺮﻋﻲ</span>
+            <span class="french-text">RENSEIGNEMENTS CONCERNANT LE REPRESENTANT LEGAL</span>
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺭﻗﻢ ﻭﺛﻴﻘﺔ ﺍﻟﻬﻮﻳﺔ</span>
+                <span class="french-text">N ° Pièce Identité</span>
+            </label>
+            <select id="id-type">
+                <option value="CNIE/CIN">CNIE/CIN/Carte Séjour / ﺏ.ﻭ.ﺕ.ﺇ /ﺏ.ﺕ.ﻭ /ﺑﻄﺎﻗﺔ ﺍﻹﻗﺎﻣﺔ</option>
+                <option value="Passeport">Passeport / ﺟﻮﺍﺯ ﺍﻟﺴﻔﺮ</option>
+                <option value="Autre">Autre / ﺁﺧﺮ</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺍﻹﺳﻢ ﺍﻟﻌﺎﺋﻠﻲ</span>
+                <span class="french-text">Nom</span>
+            </label>
+            <input type="text" id="legal-rep-last-name">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺍﻹﺳﻢ ﺍﻟﺸﺨﺼﻲ</span>
+                <span class="french-text">Prénom</span>
+            </label>
+            <input type="text" id="legal-rep-first-name">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺑﺼﻔﺘﻪ</span>
+                <span class="french-text">Agissant en Qualité de</span>
+            </label>
+            <select id="legal-rep-role">
+                <option value="Père">Père / ﺍﻷﺏ</option>
+                <option value="Mère">Mère / ﺍﻷﻡ</option>
+                <option value="Tuteur testamentaire">Tuteur testamentaire / ﺍﻟﻮﺻﻲ</option>
+                <option value="Kafil">Kafil / ﺍﻟﻜﻔﻴﻞ</option>
+                <option value="Juge">Juge / ﺍﻟﻘﺎﺿﻲ</option>
+                <option value="Tuteur datif">Tuteur datif / ﻣﻘﺪﻡ</option>
+                <option value="Autre">Autre / ﺁﺧﺮ</option>
+            </select>
+        </div>
+        
+        <div class="form-group-vertical">
+            <label>
+                <span class="arabic-text">ﺃﺷﻬﺪ ﻋﻠﻰ ﺻﺤﺔ ﺍﻟﻤﻌﻠﻮﻣﺎﺕ ﺍﻟﻮﺍﺭﺩﺓ ﻓﻲ ﻫﺬﺍ ﺍﻟﻄﻠﺐ</span>
+                <span class="french-text">Je certifie sur l'honneur l'exactitude des informations portées sur le formulaire</span>
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﻓﻲ</span>
+                <span class="french-text">Fait à:</span>
+            </label>
+            <input type="text" id="done-at">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <span class="arabic-text">ﺑﺘﺎﺭﻳﺦ</span>
+                <span class="french-text">Le:</span>
+            </label>
+            <input type="date" id="done-date">
+        </div>
+        
+        <div class="signature-box">
+            <span class="arabic-text">ﺇﻣﻀﺎء ﺻﺎﺣﺐ ﺍﻟﻄﻠﺐ ﺃﻭ ﺍﻟﻨﺎﺋﺐ ﺍﻟﺸﺮﻋﻲ</span>
+            <span class="french-text">Signature du demandeur ou du représentant légal</span>
+        </div>
+        
+        <div class="administration-section">
+            <div class="arabic-text">ﺧﺎﺹ ﺑﺎﻹﺩﺍﺭﺓ</div>
+            <div class="french-text">Réservé à l'Administration</div>
+        </div>
+        
+        <div class="instructions">
+            <h3>RECOMMANDATIONS IMPORTANTES</h3>
+            <p>Le formulaire doit être rempli, en caractères arabes et latins, directement sur le site web www.passeport.ma ou manuellement avec un stylo à bille noir, sans dépasser les bords des cases, en veillant à bien séparer les mots par une case vide et en utilisant les lettres majuscules pour les caractères latins.</p>
+            <p>Lors du retrait du passeport, le citoyen est tenu de vérifier les informations imprimées sur la page 2 du passeport avant de signer et remettre à l'administration le récépissé de dépôt de la demande du passeport biométrique.</p>
+            <p>Toute anomalie constatée au niveau des informations ou de la photographie imprimée sur la page 2 du passeport doit être immédiatement signalée à l'administration au moment du retrait du passeport.</p>
+            <p>La signature du demandeur ou du représentant légal doit être apposée à l'intérieur du cadre prévu à cet effet.</p>
+            <p>Tout passeport non retiré dans un delai de 6 mois à partir de la date de dépôt de la demande sera annulé.</p>
+            <p>Toute fausse déclaration est susceptible de donner lieu à des poursuites judiciaires.</p>
+        </div>
+        
+        <div class="btn-container">
+            <button class="btn" id="save-pdf">Enregistrer en PDF</button>
+        </div>
     </div>
-    
-    <script>
-        $(document).ready(function() {
-       
-            $('#firstName, #lastName, #documentNumber').on('input', function() {
-                updateReceipt();
-            });
-            
-            updateReceipt();
-            
 
-            $('#savePdfButton').on('click', function() {
-                salvarPDF();
-            });
-        });
-        
-        function updateReceipt() {
-            const firstName = $('#firstName').val();
-            const lastName = $('#lastName').val();
-            const docNumber = $('#documentNumber').val();
-            
-            $('#fullNameReceipt').text(lastName + ' ' + firstName);
-            $('#docNumberReceipt').text(docNumber);
-        }
-        
-        function imprimirFormulario() {
-            const requiredFields = ['documentNumber', 'lastName', 'firstName', 'postalCode'];
-            let isValid = true;
-            
-            for (const fieldId of requiredFields) {
-                const field = document.getElementById(fieldId);
-                if (!field.value.trim()) {
-                    field.style.borderColor = 'red';
-                    isValid = false;
-                } else {
-                    field.style.borderColor = '#ccc';
-                }
-            }
-            
-            if (!isValid) {
-                alert('Por favor, preencha todos os campos obrigatórios antes de imprimir.');
-                return;
-            }
-            
-            window.print();
-        }
-        
-        function salvarPDF() {
-   
-            const requiredFields = ['documentNumber', 'lastName', 'firstName', 'postalCode'];
-            let isValid = true;
-            
-            for (const fieldId of requiredFields) {
-                const field = document.getElementById(fieldId);
-                if (!field.value.trim()) {
-                    field.style.borderColor = 'red';
-                    isValid = false;
-                } else {
-                    field.style.borderColor = '#ccc';
-                }
-            }
-            
-            if (!isValid) {
-                alert('Por favor, preencha todos os campos obrigatórios antes de salvar o PDF.');
-                return;
-            }
-            
-  
-            const botoes = document.querySelectorAll('.no-print');
-            botoes.forEach(botao => {
-                botao.style.display = 'none';
-            });
-            
-       
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             const { jsPDF } = window.jspdf;
             
-            const container = document.querySelector('.container');
- 
-            const loadingMsg = document.createElement('div');
-            loadingMsg.innerHTML = '<p style="text-align: center; padding: 20px; background: #ffffcc;">Gerando PDF, por favor aguarde...</p>';
-            document.body.appendChild(loadingMsg);
-            
-
-            setTimeout(function() {
-                html2canvas(container, {
-                    scale: 2, 
-                    useCORS: true,
+            document.getElementById('save-pdf').addEventListener('click', function() {
+                const element = document.getElementById('form-to-print');
+                
+                html2canvas(element, {
+                    scale: 2,
                     logging: false,
-                    letterRendering: true
+                    useCORS: true
                 }).then(canvas => {
-         
-                    document.body.removeChild(loadingMsg);
-                    
-     
-                    botoes.forEach(botao => {
-                        botao.style.display = 'block';
-                    });
-                    
-     
-                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                    const imgData = canvas.toDataURL('image/png');
                     const pdf = new jsPDF('p', 'mm', 'a4');
-                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                    const pdfHeight = pdf.internal.pageSize.getHeight();
-            
-                    const imgWidth = canvas.width;
-                    const imgHeight = canvas.height;
-                    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-                    const imgX = (pdfWidth - imgWidth * ratio) / 2;
-                    const imgY = 0;
+                    const imgWidth = 210;
+                    const pageHeight = 295;
+                    const imgHeight = canvas.height * imgWidth / canvas.width;
+                    let heightLeft = imgHeight;
+                    let position = 0;
                     
-                    pdf.addImage(imgData, 'JPEG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-                    pdf.save('formulario_passaporte.pdf');
-                }).catch(error => {
-                    console.error('Erro ao salvar em PDF:', error);
-                    alert('Ocorreu um erro ao gerar o PDF. Verifique o console para mais detalhes.');
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
                     
-    
-                    botoes.forEach(botao => {
-                        botao.style.display = 'block';
-                    });
-                    
-                    if (document.body.contains(loadingMsg)) {
-                        document.body.removeChild(loadingMsg);
+                    while (heightLeft >= 0) {
+                        position = heightLeft - imgHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
                     }
+                    
+                    pdf.save('demande_passeport_biometrique.pdf');
                 });
-            }, 100);
-        }
+            });
+        });
     </script>
 </body>
 </html>
