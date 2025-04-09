@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Pedido de Passaporte Biométrico</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #005e8a;
+        }
+        
+        h1 {
+            color: #005e8a;
+            margin: 0;
+            padding: 0;
+            font-size: 22px;
+        }
+        
+        h2 {
+            color: #005e8a;
+            font-size: 18px;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-col {
+            flex: 1;
+        }
+        
+        .form-col.small {
+            flex: 0.5;
+        }
+        
+        button {
+            background-color: #005e8a;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            background-color: #004a6e;
+        }
+        
+        .instructions {
+            background-color: #fffde7;
+            border-left: 4px solid #ffd600;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        
+        .signature-box {
+            border: 1px dashed #aaa;
+            height: 100px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            border-radius: 4px;
+        }
+        
+        .admin-section {
+            background-color: #f0f4f8;
+            border: 1px dashed #90a4ae;
+            padding: 15px;
+            margin-top: 30px;
+            border-radius: 4px;
+        }
+
+        .receipt {
+            border: 2px solid #000;
+            padding: 15px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .receipt:before {
+            content: "✂";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            background: white;
+            padding: 0 10px;
+        }
+        
+        @media print {
+            .no-print {
+                display: none;
+            }
+            
+            .container {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                background-color: white;
+            }
+        }
+    </style>
+
+    <div class="container">
+        <header>
+            <h1>FORMULÁRIO DE PEDIDO DE PASSAPORTE BIOMÉTRICO</h1>
+        </header>
+        
+        <form id="passportForm">
+            <div class="section">
+                <h2>INFORMAÇÕES SOBRE O REQUERENTE</h2>
+                
+                <div class="form-group">
+                    <label for="documentNumber">N° CNIE ou N° Identificador (para menor de 12 a 18 anos):</label>
+                    <input type="text" id="documentNumber" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="lastName">Nome de família:</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                    
+                    <div class="form-col">
+                        <label for="firstName">Nome próprio:</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="postalCode">Código Postal:</label>
+                    <input type="text" id="postalCode" required>
+                </div>
+            </div>
+            
+            <div class="section" id="minorSection">
+                <h2>INFORMAÇÕES COMPLEMENTARES PARA MENORES DE MENOS DE 12 ANOS</h2>
+                
+                <div class="form-group">
+                    <label for="parentName">Filho(a) de (nome do pai/mãe):</label>
+                    <input type="text" id="parentName">
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>INFORMAÇÕES SOBRE O REPRESENTANTE LEGAL</h2>
+                
+                <div class="form-group">
+                    <label for="legalRepDocType">Tipo de documento de identidade:</label>
+                    <select id="legalRepDocType">
+                        <option value="">Selecione...</option>
+                        <option value="CNIE">CNIE</option>
+                        <option value="CartaoResidencia">Cartão de Residência</option>
+                        <option value="Passaporte">Passaporte</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="legalRepDocNumber">N° do documento de identidade:</label>
+                    <input type="text" id="legalRepDocNumber">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="legalRepLastName">Nome de família:</label>
+                        <input type="text" id="legalRepLastName">
+                    </div>
+                    
+                    <div class="form-col">
+                        <label for="legalRepFirstName">Nome próprio:</label>
+                        <input type="text" id="legalRepFirstName">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="receipt">
+                <h2>RECIBO DE ENTREGA DO PEDIDO DE PASSAPORTE BIOMÉTRICO</h2>
+                <p><em>(A ser apresentado no momento da retirada do passaporte)</em></p>
+                
+                <div class="form-group" id="receiptInfo">
+                    <p><strong>Nome:</strong> <span id="fullNameReceipt"></span></p>
+                    <p><strong>N° CNIE/Identificador:</strong> <span id="docNumberReceipt"></span></p>
+                </div>
+                
+                <div class="form-group">
+                    <label>PARA SER PREENCHIDO NA RETIRADA DO PASSAPORTE:</label>
+                    <p>Declaro que as informações no passaporte n°: ________________ que recebi na data ___/___/______ estão corretas.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Assinatura do requerente ou do representante legal:</label>
+                    <div class="signature-box">Espaço para assinatura</div>
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h2>PARA USO EXCLUSIVO DA ADMINISTRAÇÃO</h2>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="dossierNumber">N° do Dossiê:</label>
+                        <input type="text" id="dossierNumber">
+                    </div>
+                    
+                    <div class="form-col">
+                        <label for="provinceCountry">Província / País:</label>
+                        <input type="text" id="provinceCountry">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="consulateOffice">Caidato / Consulado:</label>
+                        <input type="text" id="consulateOffice">
+                    </div>
+                    
+                    <div class="form-col small">
+                        <label for="year">Ano:</label>
+                        <input type="text" id="year">
+                    </div>
+                    
+                    <div class="form-col small">
+                        <label for="orderNumber">N° de Ordem:</label>
+                        <input type="text" id="orderNumber">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="civilRegistryNumber">N° do Registro Civil (para menores de 12 anos):</label>
+                    <input type="text" id="civilRegistryNumber">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="requestReason">Motivo do pedido:</label>
+                        <input type="text" id="requestReason">
+                    </div>
+                    
+                    <div class="form-col">
+                        <label for="issueLocation">Local de emissão:</label>
+                        <input type="text" id="issueLocation">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="proofType">Tipo de justificativo:</label>
+                        <select id="proofType">
+                            <option value="">Selecione...</option>
+                            <option value="CNIE">CNIE</option>
+                            <option value="Recibo">Recibo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-col">
+                        <label for="filingDate">Data do depósito do dossiê:</label>
+                        <input type="date" id="filingDate">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Assinatura e carimbo da autoridade local:</label>
+                    <div class="signature-box">Espaço para assinatura e carimbo</div>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3>RECOMENDAÇÕES IMPORTANTES</h3>
+                <ul>
+                    <li>O formulário deve ser preenchido em <strong>letras latinas maiúsculas e caracteres árabes</strong> diretamente no site www.passeport.ma ou manualmente com caneta esferográfica preta, <strong>sem ultrapassar os limites dos campos</strong> e <strong>com espaço entre as palavras</strong>.</li>
+                    <li><strong>No momento da retirada do passaporte</strong>, o cidadão deve verificar as informações na <strong>página 2</strong> do passaporte <strong>antes de assinar e entregar o recibo</strong>.</li>
+                    <li><strong>Qualquer erro</strong> nas informações ou na foto deve ser <strong>imediatamente comunicado à administração</strong>.</li>
+                    <li>A <strong>assinatura</strong> do requerente ou do representante legal <strong>deve estar dentro do campo apropriado</strong>.</li>
+                    <li>Qualquer passaporte <strong>não retirado em até 6 meses</strong> após o depósito do pedido será <strong>anulado</strong>.</li>
+                    <li class="warning">Declarações falsas estão sujeitas a ações judiciais.</li>
+                </ul>
+            </div>
+            
+            <button type="button" onclick="imprimirFormulario()" class="no-print">Imprimir Formulário</button>
+            <button type="button" id="savePdfButton" class="no-print">Salvar em PDF</button>
+        </form>
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+       
+            $('#firstName, #lastName, #documentNumber').on('input', function() {
+                updateReceipt();
+            });
+            
+            updateReceipt();
+            
+
+            $('#savePdfButton').on('click', function() {
+                salvarPDF();
+            });
+        });
+        
+        function updateReceipt() {
+            const firstName = $('#firstName').val();
+            const lastName = $('#lastName').val();
+            const docNumber = $('#documentNumber').val();
+            
+            $('#fullNameReceipt').text(lastName + ' ' + firstName);
+            $('#docNumberReceipt').text(docNumber);
+        }
+        
+        function imprimirFormulario() {
+            const requiredFields = ['documentNumber', 'lastName', 'firstName', 'postalCode'];
+            let isValid = true;
+            
+            for (const fieldId of requiredFields) {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    field.style.borderColor = 'red';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#ccc';
+                }
+            }
+            
+            if (!isValid) {
+                alert('Por favor, preencha todos os campos obrigatórios antes de imprimir.');
+                return;
+            }
+            
+            window.print();
+        }
+        
+        function salvarPDF() {
+   
+            const requiredFields = ['documentNumber', 'lastName', 'firstName', 'postalCode'];
+            let isValid = true;
+            
+            for (const fieldId of requiredFields) {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    field.style.borderColor = 'red';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#ccc';
+                }
+            }
+            
+            if (!isValid) {
+                alert('Por favor, preencha todos os campos obrigatórios antes de salvar o PDF.');
+                return;
+            }
+            
+  
+            const botoes = document.querySelectorAll('.no-print');
+            botoes.forEach(botao => {
+                botao.style.display = 'none';
+            });
+            
+       
+            const { jsPDF } = window.jspdf;
+            
+            const container = document.querySelector('.container');
+ 
+            const loadingMsg = document.createElement('div');
+            loadingMsg.innerHTML = '<p style="text-align: center; padding: 20px; background: #ffffcc;">Gerando PDF, por favor aguarde...</p>';
+            document.body.appendChild(loadingMsg);
+            
+
+            setTimeout(function() {
+                html2canvas(container, {
+                    scale: 2, 
+                    useCORS: true,
+                    logging: false,
+                    letterRendering: true
+                }).then(canvas => {
+         
+                    document.body.removeChild(loadingMsg);
+                    
+     
+                    botoes.forEach(botao => {
+                        botao.style.display = 'block';
+                    });
+                    
+     
+                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+            
+                    const imgWidth = canvas.width;
+                    const imgHeight = canvas.height;
+                    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                    const imgX = (pdfWidth - imgWidth * ratio) / 2;
+                    const imgY = 0;
+                    
+                    pdf.addImage(imgData, 'JPEG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+                    pdf.save('formulario_passaporte.pdf');
+                }).catch(error => {
+                    console.error('Erro ao salvar em PDF:', error);
+                    alert('Ocorreu um erro ao gerar o PDF. Verifique o console para mais detalhes.');
+                    
+    
+                    botoes.forEach(botao => {
+                        botao.style.display = 'block';
+                    });
+                    
+                    if (document.body.contains(loadingMsg)) {
+                        document.body.removeChild(loadingMsg);
+                    }
+                });
+            }, 100);
+        }
+    </script>
+</body>
+</html>
