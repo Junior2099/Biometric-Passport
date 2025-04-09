@@ -38,31 +38,26 @@
             margin-bottom: 5px;
         }
         
-        .form-title {
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 30px;
-            font-size: 20px;
-        }
-        
-        .bilingual-title {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        
-        .bilingual-title div {
-            width: 48%;
-        }
-        
         .arabic-text {
             text-align: right;
             font-family: 'Arial', sans-serif;
             font-size: 16px;
         }
         
-        .french-text {
-            text-align: left;
+        .language-fr {
+            display: block;
+        }
+        
+        .language-pt {
+            display: none;
+        }
+        
+        body.portuguese .language-fr {
+            display: none;
+        }
+        
+        body.portuguese .language-pt {
+            display: block;
         }
         
         .form-group {
@@ -94,16 +89,6 @@
             display: block;
             margin-bottom: 5px;
             text-align: right;
-        }
-        
-        .form-group-vertical input, 
-        .form-group-vertical select,
-        .form-group-vertical textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
         }
         
         .section-title {
@@ -138,19 +123,19 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
+            margin: 0 5px;
         }
         
         .btn:hover {
             background-color: #004d27;
         }
         
-        .two-columns {
-            display: flex;
-            gap: 20px;
+        .btn-translate {
+            background-color: #1a73e8;
         }
         
-        .two-columns > div {
-            flex: 1;
+        .btn-translate:hover {
+            background-color: #0d5bba;
         }
         
         .radio-group {
@@ -199,10 +184,6 @@
             .form-group select {
                 width: 100%;
             }
-            
-            .two-columns {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
@@ -212,20 +193,25 @@
             <h1>ROYAUME DU MAROC</h1>
         </div>
         
-        <div class="bilingual-title">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
             <div class="arabic-text">ﻃﻠﺐ ﺟﻮﺍﺯ ﺍﻟﺴﻔﺮ ﺍﻟﺒﻴﻮﻣﺘﺮﻱ</div>
-            <div class="french-text">Formulaire de demande du Passeport Biométrique</div>
+            <div>
+                <div class="language-fr">Formulaire de demande du Passeport Biométrique</div>
+                <div class="language-pt">Formulário de Pedido de Passaporte Biométrico</div>
+            </div>
         </div>
         
         <div class="section-title">
             <span class="arabic-text">ﻣﻌﻠﻮﻣﺎﺕ ﺧﺎﺻﺔ ﺑﻄﺎﻟﺐ ﺍﻟﺠﻮﺍﺯ</span>
-            <span class="french-text">RENSEIGNEMENTS CONCERNANT LE DEMANDEUR</span>
+            <span class="language-fr">RENSEIGNEMENTS CONCERNANT LE DEMANDEUR</span>
+            <span class="language-pt">INFORMAÇÕES SOBRE O REQUERENTE</span>
         </div>
         
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺭﻗﻢ ﺏ.ﻭ.ﺕ.ﺇ ﺃﻭ ﺭﻗﻢ ﺍﻟﻬﻮﻳﺔ ﻟﻠﻘﺎﺻﺮ ﻣﻦ 12 ﺇﻟﻰ 18 ﺳﻨﺔ</span>
-                <span class="french-text">N°CNIE ou N° Identifiant pour mineur de12 à 18 ans</span>
+                <span class="language-fr">N°CNIE ou N° Identifiant pour mineur de12 à 18 ans</span>
+                <span class="language-pt">N° CNIE ou N° de Identificação para menores de 12 a 18 anos</span>
             </label>
             <input type="text" id="cnie-number">
         </div>
@@ -233,7 +219,8 @@
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺍﻹﺳﻢ ﺍﻟﻌﺎﺋﻠﻲ</span>
-                <span class="french-text">Nom</span>
+                <span class="language-fr">Nom</span>
+                <span class="language-pt">Sobrenome</span>
             </label>
             <input type="text" id="last-name">
         </div>
@@ -241,7 +228,8 @@
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺍﻹﺳﻢ ﺍﻟﺸﺨﺼﻲ</span>
-                <span class="french-text">Prénom</span>
+                <span class="language-fr">Prénom</span>
+                <span class="language-pt">Nome</span>
             </label>
             <input type="text" id="first-name">
         </div>
@@ -249,7 +237,8 @@
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺗﺎﺭﻳﺦ ﺍﻻﺯﺩﻳﺎﺩ</span>
-                <span class="french-text">Date de naissance</span>
+                <span class="language-fr">Date de naissance</span>
+                <span class="language-pt">Data de nascimento</span>
             </label>
             <input type="date" id="birth-date">
         </div>
@@ -257,16 +246,25 @@
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺍﻟﺠﻨﺲ</span>
-                <span class="french-text">Sexe</span>
+                <span class="language-fr">Sexe</span>
+                <span class="language-pt">Sexo</span>
             </label>
             <div class="radio-group">
                 <div class="radio-option">
                     <input type="radio" id="male" name="gender" value="male">
-                    <label for="male">Masculin / ﺫﻛﺮ</label>
+                    <label for="male">
+                        <span class="language-fr">Masculin</span>
+                        <span class="language-pt">Masculino</span>
+                        / <span class="arabic-text">ﺫﻛﺮ</span>
+                    </label>
                 </div>
                 <div class="radio-option">
                     <input type="radio" id="female" name="gender" value="female">
-                    <label for="female">Féminin / ﺃﻧﺜﻰ</label>
+                    <label for="female">
+                        <span class="language-fr">Féminin</span>
+                        <span class="language-pt">Feminino</span>
+                        / <span class="arabic-text">ﺃﻧﺜﻰ</span>
+                    </label>
                 </div>
             </div>
         </div>
@@ -274,7 +272,8 @@
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﻣﻜﺎﻥ ﺍﻻﺯﺩﻳﺎﺩ</span>
-                <span class="french-text">Lieu de naissance</span>
+                <span class="language-fr">Lieu de naissance</span>
+                <span class="language-pt">Local de nascimento</span>
             </label>
             <input type="text" id="birth-place">
         </div>
@@ -282,7 +281,8 @@
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺑﻠﺪ ﺍﻻﺯﺩﻳﺎﺩ</span>
-                <span class="french-text">Pays de naissance</span>
+                <span class="language-fr">Pays de naissance</span>
+                <span class="language-pt">País de nascimento</span>
             </label>
             <input type="text" id="birth-country" value="MAROC">
         </div>
@@ -290,7 +290,8 @@
         <div class="form-group-vertical">
             <label>
                 <span class="arabic-text">ﺍﻟﻌﻨﻮﺍﻥ</span>
-                <span class="french-text">Adresse</span>
+                <span class="language-fr">Adresse</span>
+                <span class="language-pt">Endereço</span>
             </label>
             <input type="text" id="address">
         </div>
@@ -298,7 +299,8 @@
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺍﻟﻤﺪﻳﻨﺔ</span>
-                <span class="french-text">Ville</span>
+                <span class="language-fr">Ville</span>
+                <span class="language-pt">Cidade</span>
             </label>
             <input type="text" id="city">
         </div>
@@ -306,7 +308,8 @@
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺍﻟﺒﻠﺪ</span>
-                <span class="french-text">Pays</span>
+                <span class="language-fr">Pays</span>
+                <span class="language-pt">País</span>
             </label>
             <input type="text" id="country" value="MAROC">
         </div>
@@ -314,45 +317,51 @@
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺍﻟﺮﻣﺰ ﺍﻟﺒﺮﻳﺪﻱ</span>
-                <span class="french-text">Code postal</span>
+                <span class="language-fr">Code postal</span>
+                <span class="language-pt">Código postal</span>
             </label>
             <input type="text" id="postal-code">
         </div>
         
         <div class="section-title">
             <span class="arabic-text">ﻣﻌﻠﻮﻣﺎﺕ ﺇﺿﺎﻓﻴﺔ ﺧﺎﺻﺔ ﺑﺎﻟﻘﺎﺻﺮ ﻣﺎ ﺩﻭﻥ 12 ﺳﻨﺔ</span>
-            <span class="french-text">RENSEIGNEMENTS COMPLEMENTAIRES CONCERNANT LE MINEUR DE MOINS DE 12 ANS</span>
+            <span class="language-fr">RENSEIGNEMENTS COMPLEMENTAIRES CONCERNANT LE MINEUR DE MOINS DE 12 ANS</span>
+            <span class="language-pt">INFORMAÇÕES ADICIONAIS SOBRE MENORES DE 12 ANOS</span>
         </div>
         
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺍﺑﻦ/ﺑﻨﺖ )ﺍﻷﺏ( ﻭ )ﺍﻷﻡ(</span>
-                <span class="french-text">Fils / Fille de (Père) Et de (Mère)</span>
+                <span class="language-fr">Fils / Fille de (Père) Et de (Mère)</span>
+                <span class="language-pt">Filho/Filha de (Pai) e de (Mãe)</span>
             </label>
             <input type="text" id="parents-names">
         </div>
         
         <div class="section-title">
             <span class="arabic-text">ﻣﻌﻠﻮﻣﺎﺕ ﺧﺎﺻﺔ ﺑﺎﻟﻨﺎﺋﺐ ﺍﻟﺸﺮﻋﻲ</span>
-            <span class="french-text">RENSEIGNEMENTS CONCERNANT LE REPRESENTANT LEGAL</span>
+            <span class="language-fr">RENSEIGNEMENTS CONCERNANT LE REPRESENTANT LEGAL</span>
+            <span class="language-pt">INFORMAÇÕES SOBRE O REPRESENTANTE LEGAL</span>
         </div>
         
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺭﻗﻢ ﻭﺛﻴﻘﺔ ﺍﻟﻬﻮﻳﺔ</span>
-                <span class="french-text">N ° Pièce Identité</span>
+                <span class="language-fr">N ° Pièce Identité</span>
+                <span class="language-pt">N° do Documento de Identidade</span>
             </label>
             <select id="id-type">
-                <option value="CNIE/CIN">CNIE/CIN/Carte Séjour / ﺏ.ﻭ.ﺕ.ﺇ /ﺏ.ﺕ.ﻭ /ﺑﻄﺎﻗﺔ ﺍﻹﻗﺎﻣﺔ</option>
-                <option value="Passeport">Passeport / ﺟﻮﺍﺯ ﺍﻟﺴﻔﺮ</option>
-                <option value="Autre">Autre / ﺁﺧﺮ</option>
+                <option value="CNIE/CIN">CNIE/CIN/Carte Séjour / ﺏ.ﻭ.ﺕ.ﺇ /ﺏ.ﺕ.ﻭ /ﺑﻄﺎﻗﺔ ﺍﻹﻗﺎﻣﺔ / Cartão de Residência</option>
+                <option value="Passeport">Passeport / ﺟﻮﺍﺯ ﺍﻟﺴﻔﺮ / Passaporte</option>
+                <option value="Autre">Autre / ﺁﺧﺮ / Outro</option>
             </select>
         </div>
         
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺍﻹﺳﻢ ﺍﻟﻌﺎﺋﻠﻲ</span>
-                <span class="french-text">Nom</span>
+                <span class="language-fr">Nom</span>
+                <span class="language-pt">Sobrenome</span>
             </label>
             <input type="text" id="legal-rep-last-name">
         </div>
@@ -360,7 +369,8 @@
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺍﻹﺳﻢ ﺍﻟﺸﺨﺼﻲ</span>
-                <span class="french-text">Prénom</span>
+                <span class="language-fr">Prénom</span>
+                <span class="language-pt">Nome</span>
             </label>
             <input type="text" id="legal-rep-first-name">
         </div>
@@ -368,30 +378,33 @@
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺑﺼﻔﺘﻪ</span>
-                <span class="french-text">Agissant en Qualité de</span>
+                <span class="language-fr">Agissant en Qualité de</span>
+                <span class="language-pt">Atuando na Qualidade de</span>
             </label>
             <select id="legal-rep-role">
-                <option value="Père">Père / ﺍﻷﺏ</option>
-                <option value="Mère">Mère / ﺍﻷﻡ</option>
-                <option value="Tuteur testamentaire">Tuteur testamentaire / ﺍﻟﻮﺻﻲ</option>
-                <option value="Kafil">Kafil / ﺍﻟﻜﻔﻴﻞ</option>
-                <option value="Juge">Juge / ﺍﻟﻘﺎﺿﻲ</option>
-                <option value="Tuteur datif">Tuteur datif / ﻣﻘﺪﻡ</option>
-                <option value="Autre">Autre / ﺁﺧﺮ</option>
+                <option value="Père">Père / ﺍﻷﺏ / Pai</option>
+                <option value="Mère">Mère / ﺍﻷﻡ / Mãe</option>
+                <option value="Tuteur testamentaire">Tuteur testamentaire / ﺍﻟﻮﺻﻲ / Tutor testamentário</option>
+                <option value="Kafil">Kafil / ﺍﻟﻜﻔﻴﻞ / Kafil</option>
+                <option value="Juge">Juge / ﺍﻟﻘﺎﺿﻲ / Juiz</option>
+                <option value="Tuteur datif">Tuteur datif / ﻣﻘﺪﻡ / Tutor dativo</option>
+                <option value="Autre">Autre / ﺁﺧﺮ / Outro</option>
             </select>
         </div>
         
         <div class="form-group-vertical">
             <label>
                 <span class="arabic-text">ﺃﺷﻬﺪ ﻋﻠﻰ ﺻﺤﺔ ﺍﻟﻤﻌﻠﻮﻣﺎﺕ ﺍﻟﻮﺍﺭﺩﺓ ﻓﻲ ﻫﺬﺍ ﺍﻟﻄﻠﺐ</span>
-                <span class="french-text">Je certifie sur l'honneur l'exactitude des informations portées sur le formulaire</span>
+                <span class="language-fr">Je certifie sur l'honneur l'exactitude des informations portées sur le formulaire</span>
+                <span class="language-pt">Certifico sob minha honra a exatidão das informações contidas neste formulário</span>
             </label>
         </div>
         
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﻓﻲ</span>
-                <span class="french-text">Fait à:</span>
+                <span class="language-fr">Fait à:</span>
+                <span class="language-pt">Feito em:</span>
             </label>
             <input type="text" id="done-at">
         </div>
@@ -399,32 +412,49 @@
         <div class="form-group">
             <label>
                 <span class="arabic-text">ﺑﺘﺎﺭﻳﺦ</span>
-                <span class="french-text">Le:</span>
+                <span class="language-fr">Le:</span>
+                <span class="language-pt">Em:</span>
             </label>
             <input type="date" id="done-date">
         </div>
         
         <div class="signature-box">
             <span class="arabic-text">ﺇﻣﻀﺎء ﺻﺎﺣﺐ ﺍﻟﻄﻠﺐ ﺃﻭ ﺍﻟﻨﺎﺋﺐ ﺍﻟﺸﺮﻋﻲ</span>
-            <span class="french-text">Signature du demandeur ou du représentant légal</span>
+            <span class="language-fr">Signature du demandeur ou du représentant légal</span>
+            <span class="language-pt">Assinatura do requerente ou do representante legal</span>
         </div>
         
         <div class="administration-section">
             <div class="arabic-text">ﺧﺎﺹ ﺑﺎﻹﺩﺍﺭﺓ</div>
-            <div class="french-text">Réservé à l'Administration</div>
+            <div class="language-fr">Réservé à l'Administration</div>
+            <div class="language-pt">Reservado à Administração</div>
         </div>
         
         <div class="instructions">
-            <h3>RECOMMANDATIONS IMPORTANTES</h3>
-            <p>Le formulaire doit être rempli, en caractères arabes et latins, directement sur le site web www.passeport.ma ou manuellement avec un stylo à bille noir, sans dépasser les bords des cases, en veillant à bien séparer les mots par une case vide et en utilisant les lettres majuscules pour les caractères latins.</p>
-            <p>Lors du retrait du passeport, le citoyen est tenu de vérifier les informations imprimées sur la page 2 du passeport avant de signer et remettre à l'administration le récépissé de dépôt de la demande du passeport biométrique.</p>
-            <p>Toute anomalie constatée au niveau des informations ou de la photographie imprimée sur la page 2 du passeport doit être immédiatement signalée à l'administration au moment du retrait du passeport.</p>
-            <p>La signature du demandeur ou du représentant légal doit être apposée à l'intérieur du cadre prévu à cet effet.</p>
-            <p>Tout passeport non retiré dans un delai de 6 mois à partir de la date de dépôt de la demande sera annulé.</p>
-            <p>Toute fausse déclaration est susceptible de donner lieu à des poursuites judiciaires.</p>
+            <h3 class="language-fr">RECOMMANDATIONS IMPORTANTES</h3>
+            <h3 class="language-pt">RECOMENDAÇÕES IMPORTANTES</h3>
+            
+            <p class="language-fr">Le formulaire doit être rempli, en caractères arabes et latins, directement sur le site web www.passeport.ma ou manuellement avec un stylo à bille noir, sans dépasser les bords des cases, en veillant à bien séparer les mots par une case vide et en utilisant les lettres majuscules pour les caractères latins.</p>
+            <p class="language-pt">O formulário deve ser preenchido, em caracteres árabes e latinos, diretamente no site www.passeport.ma ou manualmente com caneta esferográfica preta, sem ultrapassar as bordas dos campos, tomando cuidado para separar bem as palavras com um espaço vazio e usando letras maiúsculas para os caracteres latinos.</p>
+            
+            <p class="language-fr">Lors du retrait du passeport, le citoyen est tenu de vérifier les informations imprimées sur la page 2 du passeport avant de signer et remettre à l'administration le récépissé de dépôt de la demande du passeport biométrique.</p>
+            <p class="language-pt">Ao retirar o passaporte, o cidadão deve verificar as informações impressas na página 2 do passaporte antes de assinar e entregar à administração o recibo de depósito do pedido de passaporte biométrico.</p>
+            
+            <p class="language-fr">Toute anomalie constatée au niveau des informations ou de la photographie imprimée sur la page 2 du passeport doit être immédiatement signalée à l'administration au moment du retrait du passeport.</p>
+            <p class="language-pt">Qualquer anomalia encontrada nas informações ou na fotografia impressa na página 2 do passaporte deve ser imediatamente comunicada à administração no momento da retirada do passaporte.</p>
+            
+            <p class="language-fr">La signature du demandeur ou du représentant légal doit être apposée à l'intérieur du cadre prévu à cet effet.</p>
+            <p class="language-pt">A assinatura do requerente ou do representante legal deve ser colocada dentro do quadro previsto para esse fim.</p>
+            
+            <p class="language-fr">Tout passeport non retiré dans un delai de 6 mois à partir de la date de dépôt de la demande sera annulé.</p>
+            <p class="language-pt">Qualquer passaporte não retirado no prazo de 6 meses a partir da data de depósito do pedido será cancelado.</p>
+            
+            <p class="language-fr">Toute fausse déclaration est susceptible de donner lieu à des poursuites judiciaires.</p>
+            <p class="language-pt">Qualquer declaração falsa pode dar origem a processos judiciais.</p>
         </div>
         
         <div class="btn-container">
+            <button class="btn btn-translate" id="translate-btn">Traduzir para Português</button>
             <button class="btn" id="save-pdf">Enregistrer en PDF</button>
         </div>
     </div>
@@ -460,6 +490,30 @@
                     }
                     
                     pdf.save('demande_passeport_biometrique.pdf');
+                });
+            });
+            
+            const translateBtn = document.getElementById('translate-btn');
+            let isPortuguese = false;
+            
+            translateBtn.addEventListener('click', function() {
+                isPortuguese = !isPortuguese;
+                
+                if (isPortuguese) {
+                    document.body.classList.add('portuguese');
+                    translateBtn.textContent = 'Voltar para Francês';
+                } else {
+                    document.body.classList.remove('portuguese');
+                    translateBtn.textContent = 'Traduzir para Português';
+                }
+                
+                document.querySelectorAll('select').forEach(select => {
+                    Array.from(select.options).forEach(option => {
+                        const parts = option.text.split(' / ');
+                        option.text = isPortuguese ? 
+                            (parts[parts.length - 1] || option.text) : 
+                            (parts[0] || option.text);
+                    });
                 });
             });
         });
